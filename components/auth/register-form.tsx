@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { authApi } from "@/lib/api"
+import Image from "next/image"
 
 export function RegisterForm() {
   const router = useRouter()
@@ -36,7 +37,7 @@ export function RegisterForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md bg-transparent backdrop-blur-sm border-2 border-white/40">
       <CardHeader>
         <CardTitle>Register for BEASTIES</CardTitle>
         <CardDescription>Create a new account to start your adventure</CardDescription>
@@ -44,11 +45,22 @@ export function RegisterForm() {
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="username">Username</Label>
-            <Input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+            <Label htmlFor="username" className="text-white drop-shadow">
+              Username
+            </Label>
+            <Input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="bg-[#ff99cc]/30 border-[#ff99cc]/50 text-black placeholder:text-black/60 focus:bg-[#ff99cc]/40"
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-white drop-shadow">
+              Password
+            </Label>
             <Input
               id="password"
               type="password"
@@ -56,17 +68,22 @@ export function RegisterForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
+              className="bg-[#ff99cc]/30 border-[#ff99cc]/50 text-black placeholder:text-black/60 focus:bg-[#ff99cc]/40"
             />
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-red-600 font-semibold bg-white/80 px-3 py-1 rounded">{error}</p>}
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button
+            type="submit"
+            className="w-full bg-[#ffff00] hover:bg-[#ffff33] text-[#00ccff] font-semibold"
+            disabled={loading}
+          >
             {loading ? "Creating account..." : "Register"}
           </Button>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-white drop-shadow">
             Already have an account?{" "}
-            <Link href="/login" className="text-primary hover:underline">
+            <Link href="/login" className="text-[#ff99cc] hover:underline font-semibold">
               Login here
             </Link>
           </p>
