@@ -11,15 +11,6 @@ interface ActiveTeamProps {
 }
 
 export function ActiveTeam({ beasties, loading }: ActiveTeamProps) {
-  const getBeastieImage = (type: string) => {
-    const typeMap: Record<string, string> = {
-      EXPLORER: "rowley",
-      FIGHTER: "tiny",
-      SAGE: "cosmo",
-    }
-    return `/images/beastie/${typeMap[type] || "rowley"}.png`
-  }
-
   const getTypeName = (type: string) => {
     const typeNames: Record<string, string> = {
       EXPLORER: "Explorer",
@@ -49,7 +40,7 @@ export function ActiveTeam({ beasties, loading }: ActiveTeamProps) {
                 {/* Beastie Image */}
                 <div className="relative w-full h-24 mb-2">
                   <Image
-                    src={getBeastieImage(beastie.type) || "/placeholder.svg"}
+                    src={beastie.imageUrl || "/placeholder.svg"}
                     alt={beastie.name}
                     fill
                     className="object-contain"

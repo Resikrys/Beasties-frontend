@@ -10,12 +10,22 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { beastieApi } from "@/lib/api"
+import Image from "next/image"
 
 export function AdoptBeastieForm() {
   const router = useRouter()
   const [name, setName] = useState("")
   const [type, setType] = useState<"EXPLORER" | "FIGHTER" | "SAGE">("EXPLORER")
   const [loading, setLoading] = useState(false)
+
+    const getPreviewImage = (type: string) => {
+    const typeMap: Record<string, string> = {
+      EXPLORER: "rowley",
+      FIGHTER: "tiny",
+      SAGE: "cosmo",
+    }
+    return `/assets/images/beastie/${typeMap[type]}.png`
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,6 +49,16 @@ export function AdoptBeastieForm() {
           <CardDescription>Choose a name and type for your new creature</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+                    <div className="flex justify-center">
+            <div className="relative w-48 h-48 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg p-4">
+              <Image
+                src={getPreviewImage(type) || "/placeholder.svg"}
+                alt="Preview"
+                fill
+                className="object-contain p-4"
+              />
+            </div>
+          </div>
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
             <Input

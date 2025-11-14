@@ -72,7 +72,7 @@ export function BeastieList({ beasties, loading, onUpdate }: BeastieListProps) {
             </div>
             <div className="relative w-full h-48 mb-2">
               <Image
-                src={getBeastieImage(beastie.type) || "/placeholder.svg"}
+                src={beastie.imageUrl || "/placeholder.svg"}
                 alt={beastie.name}
                 fill
                 className="object-contain"
