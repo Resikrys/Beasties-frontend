@@ -10,16 +10,13 @@ export default function DashboardPage() {
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
-    // Check if user is admin from localStorage or JWT token
-    const token = localStorage.getItem("authToken")
-    if (token) {
-      try {
-        // Decode JWT to check if user is admin
-        const payload = JSON.parse(atob(token.split('.')[1]))
-        setIsAdmin(payload.role === "ADMIN" || payload.authorities?.includes("ROLE_ADMIN"))
-      } catch (error) {
-        console.error("Error decoding token:", error)
-      }
+    const userRole = localStorage.getItem("userRole")
+    console.log("[Beasties] User role from localStorage:", userRole)
+    
+    // Check if role is ADMIN (backend uses "ADMIN" without ROLE_ prefix in JwtResponseDTO)
+    if (userRole === "ROLE_ADMIN") {
+      setIsAdmin(true)
+      console.log("[Beasties] Admin access granted")
     }
   }, [])
 
