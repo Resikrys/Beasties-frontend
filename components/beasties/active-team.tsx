@@ -68,7 +68,7 @@ export function ActiveTeam({ beasties, loading, onUpdate }: ActiveTeamProps) {
                     disabled={removing === beastie.id}
                     className="h-6 w-6 p-0 hover:bg-red-500/20"
                   >
-                    <X className="h-4 w-4 text-red-500" />
+                    <X className="h-4 w-4 bg-white text-red-500 border-solid rounded-full" />
                   </Button>
                 </div>
                 {/* Beastie Image */}
