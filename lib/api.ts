@@ -54,11 +54,25 @@ export const beastieApi = {
     return response.json()
   },
 
-  adoptBeastie: async (name: string, type: string) => {
+  // adoptBeastie: async (name: string, type: string) => {
+  //   const response = await fetch(`${API_BASE_URL}/beasties`, {
+  //     method: "POST",
+  //     headers: createHeaders(),
+  //     body: JSON.stringify({ name, type }),
+  //   })
+  //   if (!response.ok) throw new Error("Failed to adopt beastie")
+  //   return response.json()
+  // },
+    adoptBeastie: async (name: string, type: string, imageUrl?: string) => {
+    const body: any = { name, type }
+    if (imageUrl) {
+      body.imageUrl = imageUrl
+    }
+    
     const response = await fetch(`${API_BASE_URL}/beasties`, {
       method: "POST",
       headers: createHeaders(),
-      body: JSON.stringify({ name, type }),
+      body: JSON.stringify(body),
     })
     if (!response.ok) throw new Error("Failed to adopt beastie")
     return response.json()
