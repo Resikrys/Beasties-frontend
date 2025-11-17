@@ -26,7 +26,7 @@ export interface Beastie {
   intelligence: number
   stamina: number
   maxStamina: number
-  isInTeam: boolean
+  inTeam: boolean
   isSad: boolean
   ownerId: number
 }

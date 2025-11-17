@@ -1,16 +1,24 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import type { Beastie } from "@/lib/types"
 import Image from "next/image"
-import { Frown } from 'lucide-react'
+import { Frown, X } from 'lucide-react'
+import { beastieApi } from "@/lib/api"
+import { useState } from "react"
 
 interface ActiveTeamProps {
   beasties: Beastie[]
   loading: boolean
+  onUpdate: () => void
 }
 
-export function ActiveTeam({ beasties, loading }: ActiveTeamProps) {
+export function ActiveTeam({ beasties, loading, onUpdate }: ActiveTeamProps) {
+  console.log(beasties)
+  // export function ActiveTeam({ beasties, loading }: ActiveTeamProps) {
+  const [removing, setRemoving] = useState<number | null>(null)
+
   const getTypeName = (type: string) => {
     const typeNames: Record<string, string> = {
       EXPLORER: "Explorer",
@@ -20,8 +28,23 @@ export function ActiveTeam({ beasties, loading }: ActiveTeamProps) {
     return typeNames[type] || type
   }
 
+  const handleRemoveFromTeam = async (beastieId: number) => {
+    try {
+      setRemoving(beastieId)
+      await beastieApi.toggleTeam(beastieId)
+      onUpdate()
+    } catch (error) {
+      console.error("Failed to remove from team:", error)
+    } finally {
+      setRemoving(null)
+    }
+  }
+
+  // const teamBeasties = beasties.filter((b) => b.isInTeam)
+
   // Create array of 5 slots
   const slots = Array.from({ length: 5 }, (_, i) => beasties[i] || null)
+  // const slots = Array.from({ length: 5 }, (_, i) => teamBeasties[i] || null)
 
   if (loading) {
     return <div className="text-white text-center">Loading team...</div>
@@ -37,6 +60,17 @@ export function ActiveTeam({ beasties, loading }: ActiveTeamProps) {
           <CardContent className="p-4 flex flex-col items-center justify-center min-h-[200px]">
             {beastie ? (
               <>
+                     <div className="w-full flex justify-end mb-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRemoveFromTeam(beastie.id)}
+                    disabled={removing === beastie.id}
+                    className="h-6 w-6 p-0 hover:bg-red-500/20"
+                  >
+                    <X className="h-4 w-4 text-red-500" />
+                  </Button>
+                </div>
                 {/* Beastie Image */}
                 <div className="relative w-full h-24 mb-2">
                   <Image

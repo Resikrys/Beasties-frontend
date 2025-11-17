@@ -108,11 +108,11 @@ export function BeastieList({ beasties, loading, onUpdate }: BeastieListProps) {
           </CardContent>
           <CardFooter className="flex gap-2">
             <Button
-              variant={beastie.isInTeam ? "secondary" : "default"}
+              variant={beastie.inTeam ? "secondary" : "default"}
               className="flex-1"
               onClick={() => handleToggleTeam(beastie.id)}
             >
-              {beastie.isInTeam ? "Remove from Team" : "Add to Team"}
+              {beastie.inTeam ? "Remove from Team" : "Add to Team"}
             </Button>
             <Button variant="destructive" size="icon" onClick={() => handleRelease(beastie.id)}>
               <Trash2 className="h-4 w-4" />

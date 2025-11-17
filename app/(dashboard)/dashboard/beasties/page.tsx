@@ -28,7 +28,7 @@ export default function BeastiesPage() {
     }
   }
 
-  const teamBeasties = beasties.filter((b) => b.isInTeam)
+  const teamBeasties = beasties.filter((b) => b.inTeam)
 
   return (
     <div
@@ -49,7 +49,9 @@ export default function BeastiesPage() {
         {/* Active Team Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white drop-shadow-lg mb-4">Active Team</h2>
-          <ActiveTeam beasties={teamBeasties} loading={loading} />
+          {/* <ActiveTeam beasties={beasties} loading={loading} /> */}
+          {/* <ActiveTeam beasties={beasties} loading={loading} onUpdate={loadBeasties} /> */}
+          <ActiveTeam beasties={teamBeasties} loading={loading} onUpdate={loadBeasties} />
         </div>
 
         {/* All Beasties Section */}
