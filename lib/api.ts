@@ -127,6 +127,14 @@ export const taskApi = {
     return response.json()
   },
 
+    getAssignedTasks: async () => {
+    const response = await fetch(`${API_BASE_URL}/tasks/assigned`, {
+      headers: createHeaders(),
+    })
+    if (!response.ok) throw new Error("Failed to fetch assigned tasks")
+    return response.json()
+  },
+
   assignTask: async (beastieId: number, taskId: number) => {
     const response = await fetch(`${API_BASE_URL}/tasks/assign/${beastieId}/${taskId}`, {
       method: "POST",

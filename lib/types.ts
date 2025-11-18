@@ -58,13 +58,22 @@ export interface Task {
   staminaCost: number
 }
 
+// export interface AssignedTask {
+//   id: number
+//   beastie: Beastie
+//   task: Task
+//   startTime: string
+//   endTime: string
+//   isCompleted: boolean
+// }
 export interface AssignedTask {
   id: number
-  beastie: Beastie
-  task: Task
-  startTime: string
+  beastieId: number
+  taskId: number
+  taskName: string
+  statToImprove: Stat
   endTime: string
-  isCompleted: boolean
+  remainingSeconds: number
 }
 
 // Map Types
