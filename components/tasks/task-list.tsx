@@ -118,11 +118,11 @@ export function TaskList() {
           bg: "bg-red-400/30",
           bgHover: "bg-red-500/50",
           border: "border-red-400",
-          buttonHover: "hover:bg-cyan-500"
+          buttonHover: "hover:bg-emerald-400"
         }
       default:
         return {
-          bg: "bg-white/30",
+          bg: "bg-black/30",
           bgHover: "bg-white/50",
           border: "border-white",
           buttonHover: "hover:bg-blue-500"
@@ -237,7 +237,7 @@ export function TaskList() {
                       </div>
                       <div className="w-full h-4 bg-white border-2 border-black rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-black transition-all duration-500"
+                          className="h-full bg-pink-400 transition-all duration-500"
                           style={{ width: `${progress}%` }}
                         />
                       </div>
@@ -251,7 +251,7 @@ export function TaskList() {
                   </CardContent>
                   <CardFooter>
                     <Button 
-                      className="w-full bg-green-500 hover:bg-green-600 text-white"
+                      className="w-full bg-yellow-300 hover:bg-yellow-400 text-white"
                       onClick={() => handleCollectReward(beastie.id)}
                       disabled={!isComplete}
                     >
@@ -277,7 +277,7 @@ export function TaskList() {
           
           <div className="py-4">
             <Select value={selectedBeastieId} onValueChange={setSelectedBeastieId}>
-              <SelectTrigger className="border-2 border-sky-400">
+              <SelectTrigger className="border-2 border-pink-600 bg-pink-200">
                 <SelectValue placeholder="Choose a Beastie" />
               </SelectTrigger>
               <SelectContent>
@@ -294,7 +294,7 @@ export function TaskList() {
             <Button 
               onClick={handleAssignTask}
               disabled={!selectedBeastieId}
-              className="bg-white hover:bg-cyan-500 hover:border-pink-400 hover:text-yellow-400 border-2 transition-all"
+              className="bg-fuchsia-950 text-white border-2 border-sky-800 hover:bg-cyan-500 hover:border-pink-400 hover:text-yellow-400 border-2 transition-all"
             >
               Assign Task
             </Button>
