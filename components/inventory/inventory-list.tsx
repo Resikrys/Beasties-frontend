@@ -75,8 +75,41 @@ export function InventoryList() {
     }
   }
 
+  const getCardStyles = (candyType: string) => {
+    switch (candyType) {
+      case "BANANA":
+        return {
+          bg: "bg-yellow-400/30",
+          hoverBg: "hover:bg-yellow-500/50",
+          border: "border-yellow-500",
+          buttonHover: "hover:bg-[#00ccff]"
+        }
+      case "RASPBERRY":
+        return {
+          bg: "bg-pink-400/30",
+          hoverBg: "hover:bg-pink-500/50",
+          border: "border-pink-500",
+          buttonHover: "hover:bg-purple-500"
+        }
+      case "STRAWBERRY":
+        return {
+          bg: "bg-red-400/30",
+          hoverBg: "hover:bg-red-500/50",
+          border: "border-red-500",
+          buttonHover: "hover:bg-[#00ffcc]"
+        }
+      default:
+        return {
+          bg: "",
+          hoverBg: "",
+          border: "border-gray-300",
+          buttonHover: ""
+        }
+    }
+  }
+
   if (loading) {
-    return <div>Loading inventory...</div>
+    return <div className="text-white text-center">Loading inventory...</div>
   }
 
   if (inventory.length === 0) {
@@ -91,61 +124,72 @@ export function InventoryList() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {inventory.map((item) => (
-        <Card key={item.id}>
-          <CardHeader>
-            <div className="flex justify-between items-start">
-              <div>
-                <CardTitle>{item.candyType} Candy</CardTitle>
-                <CardDescription>Use on your Beasties</CardDescription>
-              </div>
-              <Badge>{item.quantity}x</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              {item.candyType === "STRAWBERRY" && "Increases Strength +1"}
-              {item.candyType === "BANANA" && "Increases Dexterity +1"}
-              {item.candyType === "RASPBERRY" && "Increases Intelligence +1"}
-            </p>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="w-full" variant="default">
-                  Use Candy
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Use {item.candyType} Candy</DialogTitle>
-                  <DialogDescription>Select a Beastie to give this candy to</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <Select value={selectedBeastie} onValueChange={setSelectedBeastie}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a Beastie" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {beasties.map((beastie) => (
-                        <SelectItem key={beastie.id} value={beastie.id.toString()}>
-                          {beastie.name} (Level {beastie.level})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Button
-                    onClick={() => handleConsumeCandy(item.candyType)}
-                    disabled={!selectedBeastie || consumingCandy === item.candyType}
-                    className="w-full"
-                  >
-                    {consumingCandy === item.candyType ? "Using..." : "Confirm"}
-                  </Button>
+      {inventory.map((item) => {
+        const styles = getCardStyles(item.candyType)
+        return (
+          <Card 
+            key={item.id}
+            className={`${styles.bg} ${styles.hoverBg} ${styles.border} border-4 transition-colors backdrop-blur-sm`}
+          >
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-black">{item.candyType} Candy</CardTitle>
+                  <CardDescription className="text-gray-700">Use on your Beasties</CardDescription>
                 </div>
-              </DialogContent>
-            </Dialog>
-          </CardContent>
-        </Card>
-      ))}
+                <Badge className="bg-black/80 text-white border-2 border-gray">{item.quantity}x</Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-black font-medium">
+                {item.candyType === "STRAWBERRY" && "Increases Strength +1"}
+                {item.candyType === "BANANA" && "Increases Dexterity +1"}
+                {item.candyType === "RASPBERRY" && "Increases Intelligence +1"}
+              </p>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button 
+                    className={`w-full bg-black text-white border-2 border-sky-800 ${styles.buttonHover} transition-colors`}
+                    variant="outline"
+                  >
+                    Use Candy
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-[#cc99ff] border-4 border-[#00ccff]">
+                  <DialogHeader>
+                    <DialogTitle className="text-black">Use {item.candyType} Candy</DialogTitle>
+                    <DialogDescription className="text-gray-800">
+                      Select a Beastie to give this candy to
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <Select value={selectedBeastie} onValueChange={setSelectedBeastie}>
+                      <SelectTrigger className="border-2 border-pink-600 bg-pink-200">
+                        <SelectValue placeholder="Select a Beastie" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {beasties.map((beastie) => (
+                          <SelectItem key={beastie.id} value={beastie.id.toString()}>
+                            {beastie.name} (Level {beastie.level})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      onClick={() => handleConsumeCandy(item.candyType)}
+                      disabled={!selectedBeastie || consumingCandy === item.candyType}
+                      className="w-full bg-fuchsia-950 text-white border-2 border-sky-800 hover:bg-[#00ffcc] hover:border-[#ff99cc] hover:text-[#ffff00] transition-colors"
+                    >
+                      {consumingCandy === item.candyType ? "Using..." : "Confirm"}
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </CardContent>
+          </Card>
+        )
+      })}
     </div>
   )
 }
