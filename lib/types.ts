@@ -79,9 +79,11 @@ export interface AssignedTask {
 // Map Types
 export interface MapSquare {
   id: number
-  x: number
-  y: number
-  quest: Quest | null
+  xcoord: number
+  ycoord: number
+  questId: number | null
+  questName: string
+  questDifficulty: number
 }
 
 // Inventory Types
@@ -105,6 +107,6 @@ export interface ActiveQuest {
   requiredStat: Stat
   difficultyLevel: number
   endTime: string
-  x: number
-  y: number
+  xcoord: number
+  ycoord: number
 }

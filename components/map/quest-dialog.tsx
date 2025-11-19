@@ -5,25 +5,24 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { questApi } from "@/lib/api"
-import type { Quest, Beastie, ActiveQuest } from "@/lib/types"
+import type { MapSquare, Beastie, ActiveQuest } from "@/lib/types"
 import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
 
 interface QuestDialogProps {
-  quest: Quest | null
-  x: number
-  y: number
+  square: MapSquare
   beasties: Beastie[]
   activeQuests: ActiveQuest[]
   onClose: () => void
 }
 
-export function QuestDialog({ quest, x, y, beasties, activeQuests, onClose }: QuestDialogProps) {
+export function QuestDialog({ square, beasties, activeQuests, onClose }: QuestDialogProps) {
   const [selectedBeastieId, setSelectedBeastieId] = useState<string>("")
   const [loading, setLoading] = useState(false)
   const [remainingTime, setRemainingTime] = useState<number>(0)
 
-  const activeQuest = activeQuests.find(q => q.x === x && q.y === y)
+  const activeQuest = activeQuests.find(q => q.xcoord === square.xcoord && q.ycoord === square.ycoord)
+  const hasQuest = square.questId !== null
 
   useEffect(() => {
     if (activeQuest) {
@@ -41,11 +40,11 @@ export function QuestDialog({ quest, x, y, beasties, activeQuests, onClose }: Qu
   }, [activeQuest])
 
   const handleSendBeastie = async () => {
-    if (!selectedBeastieId || !quest) return
+    if (!selectedBeastieId || !hasQuest) return
 
     setLoading(true)
     try {
-      await questApi.startQuest(Number(selectedBeastieId), x, y)
+      await questApi.startQuest(Number(selectedBeastieId), square.xcoord, square.ycoord)
       onClose()
     } catch (error: any) {
       alert(error.message || "Failed to start quest")
@@ -69,31 +68,16 @@ export function QuestDialog({ quest, x, y, beasties, activeQuests, onClose }: Qu
     }
   }
 
-  const getQuestTypeColor = (type: string) => {
-    switch (type) {
-      case "COMBAT": return "border-red-500"
-      case "EXPLORATION": return "border-yellow-500"
-      case "PUZZLE": return "border-pink-500"
-      default: return "border-white"
-    }
+  const getQuestDifficultyColor = (difficulty: number) => {
+    if (difficulty >= 4) return "border-red-500"
+    if (difficulty >= 2) return "border-yellow-500"
+    return "border-pink-500"
   }
 
-  const getRequiredBeastieType = (questType: string) => {
-    switch (questType) {
-      case "COMBAT": return "FIGHTER"
-      case "EXPLORATION": return "EXPLORER"
-      case "PUZZLE": return "SAGE"
-      default: return ""
-    }
-  }
-
-  const availableBeasties = quest 
-    ? beasties.filter(b => 
-        b.type === getRequiredBeastieType(quest.type) && 
-        !b.isSad && 
-        !activeQuests.some(q => q.beastieId === b.id)
-      )
-    : []
+  const availableBeasties = beasties.filter(b => 
+    !b.isSad && 
+    !activeQuests.some(q => q.beastieId === b.id)
+  )
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -101,25 +85,36 @@ export function QuestDialog({ quest, x, y, beasties, activeQuests, onClose }: Qu
     return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
-  if (!quest) return null
+  if (!hasQuest && !activeQuest) {
+    return (
+      <Dialog open onOpenChange={onClose}>
+        <DialogContent className="bg-lavender/90 backdrop-blur-md border-4 border-sky-blue max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-black">Empty Square</DialogTitle>
+          </DialogHeader>
+          <p className="text-black">No quest available at this location.</p>
+          <Button onClick={onClose} className="bg-red-500 hover:bg-red-600 text-white">
+            Close
+          </Button>
+        </DialogContent>
+      </Dialog>
+    )
+  }
 
-  const totalDuration = quest.durationMinutes * 60
+  const totalDuration = activeQuest ? 60 * 60 : 0 // Default 60 minutes if no duration available
   const progress = activeQuest ? ((totalDuration - remainingTime) / totalDuration) * 100 : 0
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className={`bg-transparent backdrop-blur-md border-4 ${getQuestTypeColor(quest.type)} max-w-md`}>
+      <DialogContent className={`bg-transparent backdrop-blur-md border-4 ${getQuestDifficultyColor(square.questDifficulty)} max-w-md`}>
         <DialogHeader>
-          <DialogTitle className="text-2xl text-black">{quest.name}</DialogTitle>
+          <DialogTitle className="text-2xl text-black">{square.questName}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
-          <p className="text-black">{quest.description}</p>
-
           <div className="space-y-2">
-            <p className="text-white"><strong>Type:</strong> {quest.type}</p>
-            <p className="text-white"><strong>Difficulty:</strong> Level {quest.difficultyLevel}</p>
-            <p className="text-white"><strong>Required Stat:</strong> {quest.requiredStat} ({quest.baseStatRequirement})</p>
+            <p className="text-white"><strong>Difficulty:</strong> Level {square.questDifficulty}</p>
+            <p className="text-white"><strong>Location:</strong> ({square.xcoord}, {square.ycoord})</p>
           </div>
 
           {activeQuest ? (
@@ -147,10 +142,10 @@ export function QuestDialog({ quest, x, y, beasties, activeQuests, onClose }: Qu
               <div className="space-y-2">
                 <label className="text-black font-bold">Select Beastie:</label>
                 <Select value={selectedBeastieId} onValueChange={setSelectedBeastieId}>
-                  <SelectTrigger className="bg-pink-100 border-2 border-pink-400">
+                  <SelectTrigger className="bg-lavender border-2 border-sky-blue">
                     <SelectValue placeholder="Choose a beastie..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-pink-50">
+                  <SelectContent className="bg-lavender">
                     {availableBeasties.map((beastie) => (
                       <SelectItem key={beastie.id} value={beastie.id.toString()}>
                         <div className="flex items-center gap-2">
