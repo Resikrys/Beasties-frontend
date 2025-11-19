@@ -93,3 +93,18 @@ export interface InventoryItem {
   quantity: number
   userId: number
 }
+
+// Active Quest Types
+export interface ActiveQuest {
+  id: number
+  beastieId: number
+  beastieName: string
+  questId: number
+  questName: string
+  questType: QuestType
+  requiredStat: Stat
+  difficultyLevel: number
+  endTime: string
+  x: number
+  y: number
+}

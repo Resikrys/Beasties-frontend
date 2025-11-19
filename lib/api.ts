@@ -98,6 +98,14 @@ export const beastieApi = {
 
 // Quest API
 export const questApi = {
+  getActiveQuests: async () => {
+    const response = await fetch(`${API_BASE_URL}/quests/active`, {
+      headers: createHeaders(),
+    })
+    if (!response.ok) throw new Error("Failed to fetch active quests")
+    return response.json()
+  },
+
   startQuest: async (beastieId: number, x: number, y: number) => {
     const response = await fetch(`${API_BASE_URL}/quests/start/${beastieId}/${x}/${y}`, {
       method: "POST",
