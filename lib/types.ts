@@ -107,6 +107,6 @@ export interface ActiveQuest {
   requiredStat: Stat
   difficultyLevel: number
   endTime: string
-  xcoord: number
-  ycoord: number
+  x: number
+  y: number
 }

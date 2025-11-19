@@ -21,7 +21,7 @@ export function QuestDialog({ square, beasties, activeQuests, onClose }: QuestDi
   const [loading, setLoading] = useState(false)
   const [remainingTime, setRemainingTime] = useState<number>(0)
 
-  const activeQuest = activeQuests.find(q => q.xcoord === square.xcoord && q.ycoord === square.ycoord)
+  const activeQuest = activeQuests.find(q => q.x === square.xcoord && q.y === square.ycoord)
   const hasQuest = square.questId !== null
 
   useEffect(() => {
