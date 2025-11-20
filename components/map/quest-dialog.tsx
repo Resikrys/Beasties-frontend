@@ -71,7 +71,7 @@ export function QuestDialog({ square, beasties, activeQuests, onClose }: QuestDi
   const getQuestDifficultyColor = (difficulty: number) => {
     if (difficulty >= 4) return "border-red-500"
     if (difficulty >= 2) return "border-yellow-500"
-    return "border-pink-500"
+    return "border-green-400"
   }
 
   const availableBeasties = beasties.filter(b => 

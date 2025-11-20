@@ -95,6 +95,17 @@ export function BeastieList({ beasties, loading, onUpdate }: BeastieListProps) {
                 {beastie.type}
               </Badge>
             </div>
+            <div className="space-y-1">
+              <div className="relative w-full h-6 bg-white/30 rounded-full border-2 border-black overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 transition-all duration-300"
+                  style={{ width: `${(beastie.experience / beastie.experienceRequired) * 100}%` }}
+                />
+                <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-black drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
+                  {beastie.experience}/{beastie.experienceRequired} XP
+                </span>
+              </div>
+            </div>
             <div className="grid grid-cols-3 gap-2 text-sm">
               <div>
                 <p className="font-bold text-red-600">STR</p>

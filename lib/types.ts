@@ -29,6 +29,8 @@ export interface Beastie {
   inTeam: boolean
   sad: boolean
   ownerId: number
+  experience: number
+  experienceRequired: number
 }
 
 // Quest Types
