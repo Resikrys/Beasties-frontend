@@ -38,7 +38,7 @@ export function QuestMap({ beasties, activeQuests, onQuestComplete }: QuestMapPr
   const handleSquareClick = (square: MapSquare | undefined) => {
     if (!square) return
     
-    const activeQuest = activeQuests.find(q => q.x === square.xcoord && q.y === square.ycoord)
+    const activeQuest = activeQuests.find((q) => q.x === square.xcoord && q.y === square.ycoord)
     console.log("[v0] Clicked square:", square, "Active quest found:", activeQuest)
     
     if (activeQuest && getProgressPercentage(activeQuest) < 100) {
@@ -55,17 +55,10 @@ export function QuestMap({ beasties, activeQuests, onQuestComplete }: QuestMapPr
   }
 
   const getProgressPercentage = (activeQuest: ActiveQuest) => {
-    const endTime = new Date(activeQuest.endTime).getTime()
-    const now = Date.now()
-    
-    const totalDuration = activeQuest.durationMinutes * 60 * 1000
-    const startTime = endTime - totalDuration
-    
-    const elapsed = now - startTime
-    
-    const percentage = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100))
-    
-    return percentage
+    if (activeQuest.remainingSeconds <= 0) return 100
+    const totalSeconds = activeQuest.durationMinutes * 60
+    const elapsed = totalSeconds - activeQuest.remainingSeconds
+    return Math.min(100, Math.max(0, (elapsed / totalSeconds) * 100))
   }
 
   const handleCollectQuest = async (activeQuest: ActiveQuest, e: React.MouseEvent) => {
@@ -84,8 +77,8 @@ export function QuestMap({ beasties, activeQuests, onQuestComplete }: QuestMapPr
 
   const grid = Array.from({ length: 5 }, (_, yCoord) =>
     Array.from({ length: 5 }, (_, xCoord) => 
-      map.find((square) => square.xcoord === xCoord && square.ycoord === yCoord)
-    )
+      map.find((square) => square.xcoord === xCoord && square.ycoord === yCoord),
+    ),
   )
 
   return (
@@ -95,7 +88,9 @@ export function QuestMap({ beasties, activeQuests, onQuestComplete }: QuestMapPr
           <div key={yIndex} className="flex gap-2">
             {row.map((square, xIndex) => {
               const isSelected = selectedSquare?.xcoord === square?.xcoord && selectedSquare?.ycoord === square?.ycoord
-              const activeQuest = square ? activeQuests.find(q => q.x === square.xcoord && q.y === square.ycoord) : null
+              const activeQuest = square
+                ? activeQuests.find((q) => q.x === square.xcoord && q.y === square.ycoord)
+                : null
               const hasQuest = square && square.questId !== null
               
               const progress = activeQuest ? getProgressPercentage(activeQuest) : 0
@@ -105,9 +100,9 @@ export function QuestMap({ beasties, activeQuests, onQuestComplete }: QuestMapPr
                 <Card
                   key={`${xIndex}-${yIndex}`}
                   className={`flex-1 aspect-square cursor-pointer transition-all bg-transparent backdrop-blur-sm
-                    ${isSelected ? 'border-pink-400 border-4' : 'border-white border-2'}
-                    ${!isSelected && !activeQuest && 'hover:border-yellow-400 hover:border-4'}
-                    ${activeQuest && 'border-pink-400 border-4'}
+                    ${isSelected ? "border-pink-400 border-4" : "border-white border-2"}
+                    ${!isSelected && !activeQuest && "hover:border-yellow-400 hover:border-4"}
+                    ${activeQuest && "border-pink-400 border-4"}
                   `}
                   onClick={() => handleSquareClick(square)}
                 >
@@ -129,6 +124,12 @@ export function QuestMap({ beasties, activeQuests, onQuestComplete }: QuestMapPr
                                 style={{ width: `${progress}%` }}
                               />
                             </div>
+
+                            {!isComplete && (
+                              <p className="text-[10px] text-white text-center">
+                                {Math.floor(activeQuest.remainingSeconds / 60)}m {activeQuest.remainingSeconds % 60}s
+                              </p>
+                            )}
                             
                             {isComplete && (
                               <Button 

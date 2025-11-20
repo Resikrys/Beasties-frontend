@@ -35,7 +35,7 @@ export default function MapPage() {
 
   const getBeastieStatus = (beastie: Beastie) => {
     const hasActiveQuest = activeQuests.some((q) => q.beastieId === beastie.id)
-    if (beastie.isSad) return "sad"
+    if (beastie.sad) return "sad"
     if (hasActiveQuest) return "quest"
     return "available"
   }
@@ -102,7 +102,7 @@ export default function MapPage() {
                   <div className="text-center">
                     <p className="font-bold text-sm text-white drop-shadow flex items-center justify-center gap-1">
                       {beastie.name}
-                      {beastie.isSad && <Frown className="w-4 h-4 text-purple-500" />}
+                      {beastie.sad && <Frown className="w-4 h-4 text-purple-500" />}
                     </p>
                     <p className="text-xs text-white/90">{beastie.type}</p>
                   </div>

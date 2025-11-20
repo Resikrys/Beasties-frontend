@@ -224,7 +224,7 @@ export function TaskList() {
                   <CardHeader>
                     <CardTitle className="text-white drop-shadow-md flex items-center gap-2">
                       {beastie.name}
-                      {beastie.isSad && <Frown className="w-5 h-5 text-purple-500" />}
+                      {beastie.sad && <Frown className="w-5 h-5 text-purple-500" />}
                     </CardTitle>
                     <CardDescription className="text-gray-100">{task.name}</CardDescription>
                   </CardHeader>

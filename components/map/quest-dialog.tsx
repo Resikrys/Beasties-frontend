@@ -75,7 +75,7 @@ export function QuestDialog({ square, beasties, activeQuests, onClose }: QuestDi
   }
 
   const availableBeasties = beasties.filter(b => 
-    !b.isSad && 
+    !b.sad && 
     !activeQuests.some(q => q.beastieId === b.id)
   )
 

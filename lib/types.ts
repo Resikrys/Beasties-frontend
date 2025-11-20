@@ -108,6 +108,7 @@ export interface ActiveQuest {
   difficultyLevel: number
   endTime: string
   durationMinutes: number
+  remainingSeconds: number
   x: number
   y: number
 }
