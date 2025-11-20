@@ -262,12 +262,59 @@ export const adminApi = {
     if (!response.ok) throw new Error("Failed to delete quest")
   },
 
+  // Task Management
+  getAllTasksAdmin: async () => {
+    const response = await fetch(`${API_BASE_URL}/admin/tasks`, {
+      headers: createHeaders(),
+    })
+    if (!response.ok) throw new Error("Failed to fetch tasks")
+    return response.json()
+  },
+
+  createTask: async (task: any) => {
+    const response = await fetch(`${API_BASE_URL}/admin/tasks`, {
+      method: "POST",
+      headers: createHeaders(),
+      body: JSON.stringify(task),
+    })
+    if (!response.ok) throw new Error("Failed to create task")
+    return response.json()
+  },
+
+  updateTask: async (id: number, task: any) => {
+    const response = await fetch(`${API_BASE_URL}/admin/tasks/${id}`, {
+      method: "PUT",
+      headers: createHeaders(),
+      body: JSON.stringify(task),
+    })
+    if (!response.ok) throw new Error("Failed to update task")
+    return response.json()
+  },
+
+  deleteTask: async (id: number) => {
+    const response = await fetch(`${API_BASE_URL}/admin/tasks/${id}`, {
+      method: "DELETE",
+      headers: createHeaders(),
+    })
+    if (!response.ok) throw new Error("Failed to delete task")
+  },
+
   // User Management
   getAllUsers: async () => {
     const response = await fetch(`${API_BASE_URL}/admin/users`, {
       headers: createHeaders(),
     })
     if (!response.ok) throw new Error("Failed to fetch users")
+    return response.json()
+  },
+
+  updateUserRole: async (id: number, role: string) => {
+    const response = await fetch(`${API_BASE_URL}/admin/users/${id}/role`, {
+      method: "PATCH",
+      headers: createHeaders(),
+      body: JSON.stringify({ role }),
+    })
+    if (!response.ok) throw new Error("Failed to update user role")
     return response.json()
   },
 
