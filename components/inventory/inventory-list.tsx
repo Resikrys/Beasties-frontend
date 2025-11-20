@@ -67,9 +67,9 @@ export function InventoryList() {
       await loadBeasties()
       setSelectedBeastie("")
       alert("Candy consumed successfully!")
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to consume candy:", error)
-      alert("Failed to consume candy")
+      alert(error.message || "Failed to consume candy")
     } finally {
       setConsumingCandy(null)
     }

@@ -121,7 +121,8 @@ export const questApi = {
       headers: createHeaders(),
     })
     if (!response.ok) throw new Error("Failed to start quest")
-    return response.json()
+    // return response.json()
+    return response.text()
   },
 
   completeQuest: async (beastieId: number) => {
@@ -130,7 +131,8 @@ export const questApi = {
       headers: createHeaders(),
     })
     if (!response.ok) throw new Error("Failed to complete quest")
-    return response.json()
+    // return response.json()
+    return response.text()
   },
 }
 
