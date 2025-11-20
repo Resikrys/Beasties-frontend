@@ -35,14 +35,23 @@ export function BeastieList({ beasties, loading, onUpdate }: BeastieListProps) {
     }
   }
 
-  const getBeastieImage = (type: string) => {
-    const typeMap: Record<string, string> = {
-      EXPLORER: "rowley",
-      FIGHTER: "tiny",
-      SAGE: "cosmo",
+  const handleCheerUp = async (id: number) => {
+    try {
+      await beastieApi.cheerUp(id)
+      onUpdate()
+    } catch (error) {
+      console.error("Failed to cheer up beastie:", error)
     }
-    return `/assets/images/beastie/${typeMap[type] || "rowley"}.png`
   }
+
+  // const getBeastieImage = (type: string) => {
+  //   const typeMap: Record<string, string> = {
+  //     EXPLORER: "rowley",
+  //     FIGHTER: "tiny",
+  //     SAGE: "cosmo",
+  //   }
+  //   return `/assets/images/beastie/${typeMap[type] || "rowley"}.png`
+  // }
 
   if (loading) {
     return <div className="text-white text-center">Loading your Beasties...</div>
@@ -68,7 +77,7 @@ export function BeastieList({ beasties, loading, onUpdate }: BeastieListProps) {
           <CardHeader>
             <div className="flex justify-between items-start mb-4">
               <CardTitle className="text-black">{beastie.name}</CardTitle>
-              {beastie.isSad && <Frown className="h-5 w-5 text-purple-600" />}
+              {beastie.sad && <Frown className="h-5 w-5 text-purple-600" />}
             </div>
             <div className="relative w-full h-48 mb-2">
               <Image
@@ -107,6 +116,15 @@ export function BeastieList({ beasties, loading, onUpdate }: BeastieListProps) {
             </div>
           </CardContent>
           <CardFooter className="flex gap-2">
+            {beastie.sad ? (
+              <Button
+                variant="default"
+                className="flex-1 bg-purple-500 hover:bg-purple-600"
+                onClick={() => handleCheerUp(beastie.id)}
+              >
+                Cheer Up
+              </Button>
+            ) : (
             <Button
               variant={beastie.inTeam ? "secondary" : "default"}
               className="flex-1"
@@ -114,6 +132,7 @@ export function BeastieList({ beasties, loading, onUpdate }: BeastieListProps) {
             >
               {beastie.inTeam ? "Remove from Team" : "Add to Team"}
             </Button>
+            )}
             <Button variant="destructive" size="icon" onClick={() => handleRelease(beastie.id)}>
               <Trash2 className="h-4 w-4" />
             </Button>

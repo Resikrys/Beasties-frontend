@@ -94,6 +94,15 @@ export const beastieApi = {
     if (!response.ok) throw new Error("Failed to toggle team")
     return response.json()
   },
+
+  cheerUp: async (id: number) => {
+    const response = await fetch(`${API_BASE_URL}/beasties/${id}/cheer-up`, {
+      method: "PUT",
+      headers: createHeaders(),
+    })
+    if (!response.ok) throw new Error("Failed to cheer up beastie")
+    return response.json()
+  },
 }
 
 // Quest API

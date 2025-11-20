@@ -58,11 +58,7 @@ export function QuestMap({ beasties, activeQuests, onQuestComplete }: QuestMapPr
     const endTime = new Date(activeQuest.endTime).getTime()
     const now = Date.now()
     
-    const questSquare = map.find(s => s.xcoord === activeQuest.x && s.ycoord === activeQuest.y)
-    if (!questSquare) return 0
-    
-    const durationMinutes = 60 // TODO: Get this from quest template
-    const totalDuration = durationMinutes * 60 * 1000 // Convert to milliseconds
+    const totalDuration = activeQuest.durationMinutes * 60 * 1000
     const startTime = endTime - totalDuration
     
     const elapsed = now - startTime

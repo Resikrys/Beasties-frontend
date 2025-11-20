@@ -27,7 +27,7 @@ export interface Beastie {
   stamina: number
   maxStamina: number
   inTeam: boolean
-  isSad: boolean
+  sad: boolean
   ownerId: number
 }
 
@@ -107,6 +107,7 @@ export interface ActiveQuest {
   requiredStat: Stat
   difficultyLevel: number
   endTime: string
+  durationMinutes: number
   x: number
   y: number
 }
