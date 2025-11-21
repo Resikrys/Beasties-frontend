@@ -82,7 +82,7 @@ export function LoginForm() {
         <CardFooter className="flex flex-col gap-4">
           <Button
             type="submit"
-            className="w-full bg-[#ff99cc] hover:bg-[#ff80b3] text-[#00ffcc] font-semibold"
+            className="w-full mt-2 bg-[#ff99cc] hover:bg-[#ff80b3] text-[#00ffcc] font-semibold"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}

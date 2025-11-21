@@ -76,7 +76,7 @@ export function RegisterForm() {
         <CardFooter className="flex flex-col gap-4">
           <Button
             type="submit"
-            className="w-full bg-[#ffff00] hover:bg-[#ffff33] text-[#00ccff] font-semibold"
+            className="w-full mt-2 bg-[#ffff00] hover:bg-[#ffff33] text-[#00ccff] font-semibold"
             disabled={loading}
           >
             {loading ? "Creating account..." : "Register"}
