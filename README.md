@@ -69,7 +69,8 @@ fetch("http://localhost:8080/api/v1/", {
 -   Lists **all your creatures**
 -   Shows **active team section**
 
-📸 `screenshots/myBeasties.png`
+<!-- 📸 `screenshots/myBeasties.png` -->
+[Beasties interface](screenshots/myBeasties.png)
 
 ------------------------------------------------------------------------
 
@@ -79,7 +80,8 @@ fetch("http://localhost:8080/api/v1/", {
 -   Interactive **grid-based map**
 -   Quests appear on tiles randomly
 
-📸 `screenshots/map.png`
+<!-- 📸 `screenshots/map.png` -->
+[Map interface](screenshots/map.png)
 
 ------------------------------------------------------------------------
 
@@ -88,7 +90,8 @@ fetch("http://localhost:8080/api/v1/", {
 -   Displays quests in progress
 -   Shows **progress bar** for each Beastie
 
-📸 `screenshots/tasks.png`
+<!-- 📸 `screenshots/tasks.png` -->
+[Tasks interface](screenshots/tasks.png)
 
 ------------------------------------------------------------------------
 
@@ -97,7 +100,8 @@ fetch("http://localhost:8080/api/v1/", {
 -   Shows **available candies / items**
 -   Can be **consumed** by creatures
 
-📸 `screenshots/inventory.png`
+<!-- 📸 `screenshots/inventory.png` -->
+[Inventory interface](screenshots/inventory.png)
 
 ------------------------------------------------------------------------
 
@@ -106,20 +110,21 @@ fetch("http://localhost:8080/api/v1/", {
 The UI is fully responsive and can be displayed like a **smartphone
 app**.
 
-📸 `screenshots/mobileView.png`
+<!-- 📸 `screenshots/mobileView.png` -->
+[Mobile map view interface](screenshots/mobileView.png)
 
 ------------------------------------------------------------------------
 
 ## 🚀 Technologies Used
 
-  Tech            Purpose
-  --------------- ----------------
-  Next.js         Main framework
-  React           UI components
-  Tailwind CSS    Styling
-  TypeScript      Type safety
-  Node.js         Runtime
-  Java REST API   Backend + CORS
+  | Tech          |   Purpose        |
+  |---------------|------------------|
+  | Next.js       |  Main framework  |
+  | React         |  UI components   |
+  | Tailwind CSS   | Styling         |
+  | TypeScript     | Type safety     |
+  | Node.js        | Runtime         |
+  | Java REST API  | Backend + CORS  |
 
 ------------------------------------------------------------------------
 
