@@ -57,8 +57,10 @@ fetch("http://localhost:8080/api/v1/", {
 
 ### 🔐 Registration / Login
 
-*Shows the user authentication flow.* 📸 **Screenshot Placeholder:**
-`screenshots/login.png`
+*Shows the user authentication flow.* 
+<!-- 📸 **Screenshot Placeholder:**
+`screenshots/login.png` -->
+[Login interface](screenshots/login.png)
 
 ------------------------------------------------------------------------
 
